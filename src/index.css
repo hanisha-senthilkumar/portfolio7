@@ -156,4 +156,47 @@ body {
   50% { opacity: 0.7; transform: scale(1.05); }
   100% { opacity: 0.3; transform: scale(0.95); }
 }
+/* ================= SKILLS SECTION ANIMATION FINAL ================= */
 
+/* Skills icons animation on hover */
+.skill-icon {
+  transition: 0.35s ease;
+}
+.skill-card:hover .skill-icon {
+  transform: scale(1.18) rotate(2deg);
+  filter: drop-shadow(0 0 10px #00eaff);
+}
+
+/* Border glow on hover */
+.skill-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: 0.45s ease-in-out;
+  background: rgba(255, 255, 255, 0.04);
+}
+.skill-card:hover {
+  border: 1px solid #00eaff;
+  background: linear-gradient(135deg, rgba(0, 238, 255, 0.15), rgba(255,255,255,0.03));
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 0 25px rgba(0, 238, 255, 0.35);
+}
+
+/* Entry animation when card comes to view */
+.skillHidden {
+  opacity: 0;
+  transform: translateY(42px) scale(0.8);
+  transition: 0.6s ease-out;
+}
+.showSkill {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1);
+}
+
+/* Idle breathing loop after entry */
+@keyframes idleBreath {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+.showSkill {
+  animation: idleBreath 4s ease-in-out infinite 0.5s;
+}

@@ -5,6 +5,7 @@ import Navbar from "../Components/Navbar";
 import Title from "../Components/Title";
 import About from "../Components/About";
 import Skills from "../Components/Skills";
+import Contact from "../Components/Contact";
 const Home=()=>{
     return(
         <div className="min-h-screen bg-background text-foreground ">
@@ -22,6 +23,7 @@ const Home=()=>{
               <Title/>
               <About/>
               <Skills/>
+              <Contact/>
                 {/* Footer*/}
 
         </div>

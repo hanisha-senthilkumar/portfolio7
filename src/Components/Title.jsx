@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
-import Astronaut from "../assets/cute.png"; 
+import Astronaut from "../assets/cute.png";
 
 const words = [
   "Frontend Developer",
@@ -32,12 +32,12 @@ export default function Title() {
   return (
     <section className="w-full min-h-screen flex flex-col lg:flex-row justify-center items-center bg-black text-white px-6 pt-24 lg:pt-0">
       
-      {/* LEFT CONTENT */}
+      {/* LEFT CONTENT (shifted slightly to right) */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 20 }}
         transition={{ duration: 0.7 }}
-        className="flex-1 text-center lg:text-left space-y-4"
+        className="flex-1 text-center lg:text-left space-y-4 lg:ml-14"
       >
         <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-400 bg-clip-text text-transparent">
           Hey, I'm Hanisha
@@ -48,7 +48,7 @@ export default function Title() {
           <span className="border-r-2 border-white ml-1 animate-pulse"></span>
         </h2>
 
-        <p className="text-white/80 text-lg max-w-lg">
+        <p className="text-white/80 text-lg max-w-lg mx-auto lg:mx-0">
           Crafting modern, clean, and creative web experiences with passion and precision.
         </p>
 
@@ -80,8 +80,6 @@ export default function Title() {
             animate={{ rotate: [0, 2, 0] }}
             transition={{ duration: 6, repeat: Infinity }}
           />
-
-          {/* Glow Halo */}
           <div className="glow-circle"></div>
         </div>
       </motion.div>
