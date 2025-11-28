@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+
+/* KEYFRAMES */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes meteor {
+  0% { opacity: 1; transform: rotate(215deg) translateX(0); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(215deg) translateX(-500px); }
+}
+
+/* VARIABLES + DARK MODE */
+@theme {
+  --color-background: 210 40% 98%;
+  --color-foreground: 222 47% 11%;
+  --color-primary: 250 65% 65%;
+  --color-primary-foreground: 0 0% 100%;
+  --color-secondary: 210 40% 98%;
+  --color-card: 0 0% 100%;
+  --color-border: 214 32% 91%;
+}
+
+.dark {
+  --color-background: 222 46% 4%;
+  --color-foreground: 213 31% 91%;
+  --color-primary: 250 65% 65%;
+  --color-primary-foreground: 0 0% 100%;
+  --color-secondary: 213 31% 98%;
+  --color-card: 222 47% 8%;
+  --color-border: 217 32% 25%;
+}
+
+/* GLOBAL */
+body {
+  background-color: hsl(var(--color-background));
+  color: hsl(var(--color-foreground));
+  transition: 0.3s;
+}
+
+* {
+  border-color: hsl(var(--color-border));
+}
+
+/* CUSTOM UTILITIES */
+@utility text-glow {
+  position: relative;
+  text-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+}
+
+@utility card-hover {
+  transition: transform 0.3s;
+}
+.card-hover:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+@utility gradient-border {
+  position: relative;
+  border-radius: 6px;
+  background: linear-gradient(to right, hsl(var(--color-card)), hsl(var(--color-card)));
+  background-clip: padding-box;
+  border: 1px solid transparent;
+}
+
+@utility cosmic-button {
+  padding: 0.5rem 1.5rem;
+  border-radius: 100px;
+  background-color: hsl(var(--color-primary));
+  color: hsl(var(--color-primary-foreground));
+  font-weight: 500;
+  transition: 0.3s;
+}
+.cosmic-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(139, 93, 246, 0.5);
+}
+.cosmic-button:active {
+  transform: scale(0.95);
+}
+
+/* ROOT LAYOUT */
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+  
+
+/* 🎨 Skill Card Styling */
+.skill-card {
+  @apply p-7 rounded-2xl text-white shadow-xl backdrop-blur-md transition-all duration-300;
+}
+
+.skill-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+}
+
+/* 🎨 Gradient Button */
+.gradient-btn {
+  @apply px-6 py-3 rounded-xl font-semibold text-white transition;
+  background: linear-gradient(to right, #ff4db8, #8a4fff);
+}
+
+.gradient-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+
+/* Buttons */
+.btn1 {
+  @apply px-6 py-3 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 transition font-semibold;
+}
+.btn2 {
+  @apply px-6 py-3 rounded-xl bg-blue-500/30 backdrop-blur-md border border-blue-300/40 hover:bg-blue-500/40 transition font-semibold;
+}
+
+/* Remove outlines */
+* {
+  @apply focus:outline-none;
+}
+
+
+
+/* Astronaut Image Styling */
+.astronaut-img {
+  @apply w-[300px] md:w-[420px] rounded-full shadow-2xl object-cover;
+}
+
+/* Neon Glow Circle */
+.glow-circle {
+  @apply rounded-full border-2 border-blue-400/40;
+  filter: blur(40px);
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+/* Pulse Glow Animation */
+@keyframes pulseGlow {
+  0% { opacity: 0.3; transform: scale(0.95); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+  100% { opacity: 0.3; transform: scale(0.95); }
+}
+
