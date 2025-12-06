@@ -200,3 +200,302 @@ body {
 .showSkill {
   animation: idleBreath 4s ease-in-out infinite 0.5s;
 }
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Smooth 3D tilt */
+.project-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+/* Button hover slide with icon */
+.btn-slide {
+  position: relative;
+  overflow: hidden;
+}
+.btn-slide svg {
+  transition: transform 0.3s ease;
+}
+.btn-slide:hover svg {
+  transform: translateX(5px);
+}
+.btn-slide:hover {
+  padding-right: 18px;
+}
+
+/* IMAGE BOUNCE ONLY */
+@keyframes bounceAlone {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+.bounce-alone {
+  animation: bounceAlone 3s ease-in-out infinite;
+}
+
+/* CONTACT BOX BORDER GLOW */
+.contact-box {
+  border: 1px solid rgba(139, 93, 246, 0.35);
+  box-shadow: 0 0 20px rgba(139, 93, 246, 0.25);
+  transition: 0.4s;
+}
+.contact-box:hover {
+  box-shadow: 0 0 35px rgba(139, 93, 246, 0.6);
+  transform: translateY(-3px);
+}
+
+/* FORM INPUTS */
+.form-control {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(139, 93, 246, 0.35);
+  background: rgba(0, 0, 0, 0.4);
+  outline: none;
+  transition: 0.3s;
+}
+.form-control:focus {
+  border-color: rgba(139, 93, 246, 0.8);
+  box-shadow: 0 0 10px rgba(139, 93, 246, 0.6);
+}
+
+/* SUBMIT BUTTON */
+.submit-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 32px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  font-weight: 500;
+  transition: 0.35s;
+}
+.submit-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 12px rgba(139, 93, 246, 0.7);
+}
+.submit-btn:active {
+  transform: scale(0.93);
+}
+
+/* ============================================ */
+/* Full-page video background (used by Background.jsx) */
+/* Ensures the video covers the viewport and sits behind content */
+html, body, #root {
+  height: 100%;
+}
+
+/* Enable smooth scrolling for in-page anchors */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animated underline indicator for navbar */
+.nav-indicator {
+  /* place the indicator slightly below the nav items so it doesn't 'strike-through' text */
+  bottom: -8px;
+  height: 3px;
+  border-radius: 9999px;
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), width 220ms cubic-bezier(.2,.9,.2,1), opacity 200ms;
+  background: linear-gradient(90deg, #ff4db8, #8a4fff);
+  pointer-events: none;
+}
+
+.video-bg {
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  transform-origin: center;
+  /* slow, subtle zoom for life */
+  animation: slow-zoom 30s linear infinite;
+  /* make the animated background slightly transparent for better contrast */
+  opacity: 0.88;
+}
+
+/* ======= HERO: gradient text, astronaut float, stars, buttons, social, arrow ======= */
+
+.animated-gradient-text {
+  background: linear-gradient(90deg, #ff7eb3, #7a5cff, #00d4ff);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 8s linear infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* floating helper for astronaut image (uses transform only, combined with framer-motion if present) */
+.floating-astronaut {
+  animation: floatY 4s ease-in-out infinite, rotateSlight 6s ease-in-out infinite;
+}
+
+@keyframes floatY {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes rotateSlight {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(3deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Stars twinkling background */
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 999px;
+  opacity: 0.85;
+  transform: translate(-50%, -50%);
+  animation: starTwinkle 4s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+  0% { opacity: 0.05; transform: scale(0.6) translate(-50%, -50%); }
+  50% { opacity: 1; transform: scale(1.05) translate(-50%, -50%); }
+  100% { opacity: 0.05; transform: scale(0.6) translate(-50%, -50%); }
+}
+
+/* Button hover: gentle scale and glow */
+.btn-hover {
+  transition: transform .22s cubic-bezier(.2,.9,.2,1), box-shadow .22s;
+}
+.btn-hover:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 30px rgba(122,92,255,0.16), 0 2px 8px rgba(0,0,0,0.18);
+}
+
+/* Social icons hover */
+.social-icon { display: inline-flex; align-items:center; justify-content:center; transition: transform .18s, color .18s; color: #ffffff; }
+.social-icon:hover { transform: rotate(-10deg) scale(1.12); color: #7a5cff; }
+
+/* Scroll down arrow */
+/* scroll arrow removed: styles intentionally deleted per user request */
+
+/* small gradient text shimmer for sub items (typing) */
+.type-text { background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+/* ======================================================================== */
+
+/* overlays to improve readability and focus */
+/* removed overlay/vignette per user request - keep only subtle slow zoom */
+@keyframes slow-zoom {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* Small accessibility helper: show video when aria-hidden is present (keeps previous behavior) */
+.video-bg[aria-hidden="true"] {
+  display: block;
+}
+
+/* Contact section video (section-scoped) */
+.contact-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  transform-origin: center;
+  animation: slow-zoom 40s linear infinite;
+  /* subtle transparency for section-scoped video too */
+  opacity: 0.88;
+}
+
+/* Left-side video used by Contact section */
+.left-video {
+  display: block;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* Left-side image used by Contact section */
+.left-image {
+  display: block;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 240ms ease, box-shadow 240ms ease, filter 240ms ease;
+}
+.left-image {
+  display: block;
+  object-fit: cover;
+  border-radius: 9999px;
+  overflow: hidden;
+  transition: transform 240ms ease, box-shadow 240ms ease, filter 240ms ease;
+}
+
+.left-image:hover {
+  animation: hover-bounce 650ms cubic-bezier(.2,.9,.2,1) both;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.45);
+  filter: saturate(1.06) brightness(1.03);
+}
+
+/* make image cursor pointer and add tiny idle bounce to draw attention */
+.left-image {
+  cursor: pointer;
+  will-change: transform;
+}
+
+@keyframes idle-breath {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.left-image.idle {
+  animation: idle-breath 6s ease-in-out infinite;
+}
+
+@keyframes hover-bounce {
+  0% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-10px) scale(1.04); }
+  60% { transform: translateY(-4px) scale(1.02); }
+  100% { transform: translateY(-8px) scale(1.03); }
+}
+
+/* Contact card: initially borderless, subtle border & lift on hover */
+.contact-card {
+  border: 1px solid transparent;
+  transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease;
+}
+.contact-card:hover {
+  border-color: rgba(139,93,246,0.45);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+/* About section reveal animation */
+.reveal-about {
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.active-about {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+

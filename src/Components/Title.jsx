@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import Astronaut from "../assets/cute.png";
+import bgVideo from "../assets/bg1.mp4";
 
 const words = [
   "Frontend Developer",
@@ -30,57 +31,103 @@ export default function Title() {
   }, [subIndex, deleting, index]);
 
   return (
-    <section className="w-full min-h-screen flex flex-col lg:flex-row justify-center items-center bg-black text-white px-6 pt-24 lg:pt-0">
-      
-      {/* LEFT CONTENT (shifted slightly to right) */}
+    <section
+      id="hero"
+      className="w-full min-h-screen flex flex-col lg:flex-row justify-center items-center bg-black text-white px-6 pt-24 lg:pt-0 relative overflow-hidden"
+    >
+      {/* Background Video */}
+      <div className="absolute inset-0 pointer-events-none z-0" aria-hidden="true">
+        <video className="video-bg" autoPlay loop muted playsInline>
+          <source src={bgVideo} type="video/mp4" />
+        </video>
+      </div>
+
+      {/* Stars Background */}
+      <div className="absolute inset-0 pointer-events-none z-10">
+        {Array.from({ length: 35 }).map((_, i) => {
+          const style = {
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            width: `${Math.random() * 3 + 1}px`,
+            height: `${Math.random() * 3 + 1}px`,
+            animationDelay: `${Math.random() * 4}s`,
+            opacity: Math.random() * 0.9,
+          };
+          return <span key={i} className="star" style={style} />;
+        })}
+      </div>
+
+      {/* LEFT HERO CONTENT */}
       <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 20 }}
-        transition={{ duration: 0.7 }}
-        className="flex-1 text-center lg:text-left space-y-4 lg:ml-14"
+        initial={{ opacity: 0, y: 22 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9 }}
+        className="flex-1 text-center lg:text-left space-y-4 lg:ml-14 z-20"
       >
-        <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-400 bg-clip-text text-transparent">
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.1 }}
+          className="text-5xl md:text-6xl font-bold animated-gradient-text"
+        >
           Hey, I'm Hanisha
-        </h1>
+        </motion.h1>
 
-        <h2 className="text-xl md:text-2xl font-medium text-white/90 h-10">
-          {words[index].substring(0, subIndex)}
-          <span className="border-r-2 border-white ml-1 animate-pulse"></span>
-        </h2>
+        {/* Typing Animation */}
+        <motion.h2
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.35 }}
+          className="text-xl md:text-2xl font-medium text-white/90 h-10 flex items-center justify-center lg:justify-start"
+        >
+          <span className="type-text">{words[index].substring(0, subIndex)}</span>
+          <span className="border-r-2 border-white ml-2 animate-pulse" />
+        </motion.h2>
 
-        <p className="text-white/80 text-lg max-w-lg mx-auto lg:mx-0">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          className="text-white/80 text-lg max-w-lg mx-auto lg:mx-0"
+        >
           Crafting modern, clean, and creative web experiences with passion and precision.
-        </p>
+        </motion.p>
 
         {/* Buttons */}
         <div className="mt-6 flex gap-4 justify-center lg:justify-start">
-          <a href="#projects" className="btn1">View Projects</a>
-          <a href="#contact" className="btn2">Contact Me</a>
+          <a href="#projects" className="btn1 btn-hover">View Projects</a>
+          <a href="#contact" className="btn2 btn-hover">Contact Me</a>
         </div>
 
         {/* Social Icons */}
         <div className="flex gap-6 mt-6 text-3xl justify-center lg:justify-start">
-          <a href="https://github.com" target="_blank" className="hover:scale-110 transition"><FaGithub /></a>
-          <a href="https://linkedin.com" target="_blank" className="hover:scale-110 transition"><FaLinkedin /></a>
-          <a href="mailto:youremail@example.com" className="hover:scale-110 transition"><FaEnvelope /></a>
+          <a href="https://github.com" target="_blank" className="social-icon">
+            <FaGithub />
+          </a>
+          <a href="https://linkedin.com" target="_blank" className="social-icon">
+            <FaLinkedin />
+          </a>
+          <a href="mailto:haniisenthil@gmail.com" className="social-icon">
+            <FaEnvelope />
+          </a>
         </div>
       </motion.div>
 
-      {/* RIGHT IMAGE */}
+      {/* RIGHT - ASTRONAUT IMAGE */}
       <motion.div
-        className="flex-1 flex justify-center mt-12 lg:mt-0 relative"
-        animate={{ y: [0, -12, 0] }}
-        transition={{ duration: 3, repeat: Infinity }}
+        className="flex-1 flex justify-center mt-12 lg:mt-0 relative z-20"
+        animate={{ y: [0, -12, 0], rotate: [0, 2, 0] }}
+        transition={{ duration: 4, repeat: Infinity }}
       >
-        <div className="relative w-[300px] md:w-[420px] aspect-square">
+        <div className="relative w-[300px] md:w-[420px]">
           <motion.img
             src={Astronaut}
             alt="astronaut"
-            className="astronaut-img"
-            animate={{ rotate: [0, 2, 0] }}
-            transition={{ duration: 6, repeat: Infinity }}
+            className="astronaut-img floating-astronaut"
+            animate={{ y: [0, -14, 0], rotate: [0, 3, 0] }}
+            transition={{ duration: 4, repeat: Infinity }}
           />
-          <div className="glow-circle"></div>
+          <div className="glow-circle absolute inset-0" />
         </div>
       </motion.div>
     </section>

@@ -8,50 +8,92 @@ import {
   FaJava
 } from "react-icons/fa";
 import { FaCode } from "react-icons/fa";
-import { useEffect } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
+
+const skillData = [
+  { icon: <FaHtml5 size={50} />, label: "HTML", level: 95 },
+  { icon: <FaCss3Alt size={50} />, label: "CSS", level: 92 },
+  { icon: <FaJs size={50} />, label: "JavaScript", level: 87 },
+  { icon: <FaCode size={50} />, label: "VS Code", level: 90 },
+  { icon: <FaGitAlt size={50} />, label: "Git / GitHub", level: 85 },
+  { icon: <FaPython size={50} />, label: "Python", level: 75 },
+  { icon: <FaJava size={50} />, label: "Java", level: 70 },
+  { icon: <FaReact size={50} />, label: "React", level: 50 },
+];
 
 export default function Skills() {
-  useEffect(() => {
-    const cards = document.querySelectorAll(".skill-card");
-    const reveal = () => {
-      cards.forEach((c) => {
-        const top = c.getBoundingClientRect().top;
-        if (top < window.innerHeight - 100) {
-          c.classList.add("showSkill");
-        }
-      });
-    };
-    window.addEventListener("scroll", reveal);
-    reveal();
-  }, []);
-
   return (
-    <section id="skills" className="w-full py-24 bg-black text-white">
-      <h2 className="text-4xl font-bold text-center animate-[fade-in_0.9s_ease]">
+    <section id="skills" className="relative w-full py-24 text-white">
+      <h2 className="text-4xl font-extrabold text-center text-glow">
         My <span className="text-blue-400">Skills</span>
       </h2>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10 w-[80%] mx-auto mt-16">
-        <Skill icon={<FaHtml5 size={52} />} label="HTML" delay="1" />
-        <Skill icon={<FaCss3Alt size={52} />} label="CSS" delay="2" />
-        <Skill icon={<FaJs size={52} />} label="JavaScript" delay="3" />
-        <Skill icon={<FaCode size={52} />} label="VS Code" delay="4" />
-        <Skill icon={<FaGitAlt size={52} />} label="Git / GitHub" delay="5" />
-        <Skill icon={<FaPython size={52} />} label="Python" delay="6" />
-        <Skill icon={<FaJava size={52} />} label="Java" delay="7" />
-        <Skill icon={<FaReact size={52} />} label="React" delay="8" />
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10 w-[88%] mx-auto mt-16">
+        {skillData.map((skill, i) => (
+          <SkillCard key={i} index={i} {...skill} />
+        ))}
       </div>
     </section>
   );
 }
 
-function Skill({ icon, label, delay }) {
+function SkillCard({ icon, label, level, index }) {
+  const [hover, setHover] = useState(false);
+
   return (
-    <div
-      className={`skill-card skillHidden delay-order-${delay} flex flex-col items-center justify-center gap-4 p-8 rounded-xl select-none`}
+    <motion.div
+      initial={{ opacity: 0, y: 60, scale: 0.8 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ delay: index * 0.12, duration: 0.7 }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      className="skill-card relative card-hover cursor-pointer select-none"
+      style={{ transformStyle: "preserve-3d" }}
     >
-      <span className="skill-icon text-white">{icon}</span>
-      <p className="text-[18px] font-medium tracking-wide">{label}</p>
-    </div>
+
+      {/* 3D tilt layer */}
+      <div
+        className={`absolute inset-0 rounded-2xl transition-all duration-500
+        ${hover ? "opacity-100 bg-cyan-400/20 blur-2xl" : "opacity-0"}`}
+      />
+
+      {/* Icon */}
+      <motion.div
+        animate={hover ? { scale: 1.2, rotate: 3 } : { scale: 1, rotate: 0 }}
+        transition={{ duration: 0.3 }}
+        className="skill-icon"
+      >
+        {icon}
+      </motion.div>
+
+      {/* Text */}
+      <p className="text-[18px] font-bold mt-3 tracking-wide drop-shadow-md">
+        {label}
+      </p>
+
+      {/* XP Progress Bar */}
+      <div className="w-full mt-4 h-2 bg-white/20 rounded-full overflow-hidden">
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: hover ? `${level}%` : "0%" }}
+          transition={{ duration: 0.7 }}
+          className="h-full rounded-full"
+          style={{ background: "linear-gradient(90deg,#00eaff,#8b5cf6)" }}
+        />
+      </div>
+
+      {/* Level text */}
+      {hover && (
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="mt-2 text-sm text-blue-300"
+        >
+          {level}% expertise
+        </motion.p>
+      )}
+    </motion.div>
   );
 }

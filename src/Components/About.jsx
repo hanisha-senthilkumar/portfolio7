@@ -1,75 +1,140 @@
+import { motion } from "framer-motion";
+import resumeFile from "../assets/haniires.pdf";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
+};
+
+const glowCard = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { duration: 0.6, ease: "easeOut" }
+  },
+};
+
 const About = () => {
   return (
     <section
       id="about"
-      className="min-h-screen px-6 py-20 bg-black text-white flex items-center"
+      className="min-h-screen px-6 py-24 bg-transparent text-white flex items-center relative z-50"
     >
-      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
 
-        {/* LEFT SIDE — TEXT CONTENT */}
-        <div className="space-y-6">
-          <h2 className="text-4xl font-bold text-center lg:text-left">
-            About <span className="text-purple-400">Me</span>
+        {/* LEFT SIDE — TEXT */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          className="space-y-6"
+        >
+          <h2 className="text-5xl font-extrabold text-center lg:text-left">
+            About{" "}
+            <span className="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent animate-pulse">
+              Me
+            </span>
           </h2>
-<h3 className="text-xl font-semibold">Web developer & technology</h3>
 
-          <p className="text-gray-300 leading-relaxed">
+          <h3 className="text-xl font-semibold tracking-wide">
+            Creative Web Developer & UI Lover ✨
+          </h3>
+
+          <p className="leading-relaxed text-white/90 text-lg">
             I’m a{" "}
-            <span className="text-pink-400 font-semibold">
-              2nd year Computer Science Engineering student
+            <span className="font-semibold text-pink-400">
+              2nd year CSE student
             </span>{" "}
             and a{" "}
-            <span className="text-blue-400 font-semibold">
+            <span className="font-semibold text-blue-400">
               Frontend Developer
             </span>{" "}
-            who enjoys creating modern, smooth and user-friendly web interfaces.
-          </p>
-<p className="text-gray-300 leading-relaxed">
-            I love exploring UI animations, React components and building
-            beautiful layouts with Tailwind CSS.
+            passionate about building interfaces that feel smooth, animated and
+            unforgettable.
           </p>
 
-          <div>
+          <p className="leading-relaxed text-white/80 text-lg">
+            I enjoy experimenting with modern UI motion, glowing gradients,
+            interactive elements, and creating web pages that make people say:
+            <span className="text-purple-300 font-semibold"> “Wow!” </span>
+          </p>
+
+          {/* BUTTON */}
+          <motion.div whileHover={{ scale: 1.05 }}>
             <a
-              href=""
-              download
-              className="px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold shadow-lg hover:opacity-90 transition"
+              href={resumeFile}
+              download="Hanisha_Senthilkumar_CV.pdf"
+              className="px-8 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600
+              text-white font-semibold shadow-xl tracking-wide hover:shadow-pink-500/40 transition"
             >
               Download CV
             </a>
-          </div>
-        </div>
-        {/* RIGHT SIDE — 3 ANIMATED BOXES */}
+          </motion.div>
+        </motion.div>
+
+        {/* RIGHT SIDE — ANIMATED CARDS */}
         <div className="grid sm:grid-cols-2 gap-6 lg:grid-cols-1">
 
           {/* CARD 1 */}
-          <div className="skill-card bg-gradient-to-br from-blue-500 to-purple-500">
-            <h3 className="text-xl font-bold mb-2">Web Development</h3>
-            <p className="text-gray-200">Building modern and responsive UIs.</p>
-          </div>
+          <motion.div
+            variants={glowCard}
+            initial="hidden"
+            whileInView="visible"
+            whileHover={{
+              scale: 1.05,
+              rotate: 1,
+              boxShadow: "0 0 20px rgba(255, 0, 255, 0.5)",
+            }}
+            viewport={{ once: true }}
+            className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/40 to-purple-600/40 
+            backdrop-blur-xl border border-white/20 shadow-lg transition cursor-pointer"
+          >
+            <h3 className="text-xl font-bold mb-2 text-white">Web Development</h3>
+            <p className="text-gray-200 text-sm">Creating smooth, responsive & modern designs.</p>
+          </motion.div>
 
           {/* CARD 2 */}
-          <div className="skill-card bg-gradient-to-br from-green-500 to-emerald-600">
-            <h3 className="text-xl font-bold mb-2">Solve Bug</h3>
-            <p className="text-gray-200">
-              Fixing errors and improving UI flow.
-            </p>
-          </div>
+          <motion.div
+            variants={glowCard}
+            initial="hidden"
+            whileInView="visible"
+            whileHover={{
+              scale: 1.05,
+              rotate: -1,
+              boxShadow: "0 0 20px rgba(0, 255, 150, 0.5)",
+            }}
+            viewport={{ once: true }}
+            className="p-6 rounded-2xl bg-gradient-to-br from-green-500/40 to-emerald-600/40 
+            backdrop-blur-xl border border-white/20 shadow-lg cursor-pointer"
+          >
+            <h3 className="text-xl font-bold mb-2">Bug Solving</h3>
+            <p className="text-gray-200 text-sm">Fixing UI issues & improving user flow.</p>
+          </motion.div>
 
           {/* CARD 3 */}
-          <div className="skill-card bg-gradient-to-br from-pink-400 to-purple-600">
+          <motion.div
+            variants={glowCard}
+            initial="hidden"
+            whileInView="visible"
+            whileHover={{
+              scale: 1.05,
+              rotate: 1,
+              boxShadow: "0 0 20px rgba(255, 0, 150, 0.5)",
+            }}
+            viewport={{ once: true }}
+            className="p-6 rounded-2xl bg-gradient-to-br from-pink-400/40 to-purple-600/40 
+            backdrop-blur-xl border border-white/20 shadow-lg cursor-pointer"
+          >
             <h3 className="text-xl font-bold mb-2">UI Design</h3>
-            <p className="text-gray-200">
-              Designing clean and aesthetic user interfaces.
-            </p>
-          </div>
+            <p className="text-gray-200 text-sm">Creating aesthetic & animated interfaces.</p>
+          </motion.div>
 
         </div>
-        
-
-
       </div>
     </section>
   );
 };
+
 export default About;

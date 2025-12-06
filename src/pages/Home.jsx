@@ -1,20 +1,21 @@
 
 import ThemeToggle from "../Components/ThemeToggle";
-import BackgroundAnimations from "../Components/Background";
+import Background from "../Components/Background";
 import Navbar from "../Components/Navbar";
 import Title from "../Components/Title";
 import About from "../Components/About";
 import Skills from "../Components/Skills";
+import Projects from "../Components/Projects";
 import Contact from "../Components/Contact";
 const Home=()=>{
     return(
-        <div className="min-h-screen bg-background text-foreground ">
+        <div className="min-h-screen bg-transparent text-foreground ">
 
             {/* Theme Toggle */}
             <ThemeToggle/>
 
              {/* Background Effect */}
-             <BackgroundAnimations/>
+             <Background/>
 
               {/* Navbar*/}
               <Navbar/>
@@ -23,6 +24,8 @@ const Home=()=>{
               <Title/>
               <About/>
               <Skills/>
+              
+              <Projects/>
               <Contact/>
                 {/* Footer*/}
 

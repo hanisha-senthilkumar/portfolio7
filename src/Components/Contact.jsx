@@ -1,88 +1,110 @@
 import { Linkedin, Mail, PhoneCall, Send } from "lucide-react";
-import ContactImg from "../assets/contact3.png"; 
+import { useState } from "react";
+import callImg from "../assets/call.png";
 
 const Contact = () => {
+  const [result, setResult] = useState("");
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    formData.append("access_key", "1d12d97d-209d-4a42-a2ea-065bda7ffc28"); // your Web3Forms access key
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+    setResult(data.success ? "Message Sent Successfully ✔" : "Something went wrong ✖");
+    if (data.success) event.target.reset();
+  };
+
   return (
     <section id="contact" className="py-24 px-4 relative">
-      <div className="max-w-6xl mx-auto border border-primary/40 rounded-3xl p-10 bg-black/60 shadow-[0_0_25px_rgba(139,93,246,0.35)] hover:shadow-[0_0_40px_rgba(139,93,246,0.6)] transition-all duration-500">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-
-          {/* LEFT IMAGE */}
-          <div className="flex justify-center">
+          {/* LEFT: Image */}
+          <div className="flex items-center justify-center">
             <img
-              src={ContactImg}
-              alt="contact"
-              className="w-80 md:w-[380px] animate-bounce-slow drop-shadow-[0_0_15px_rgba(139,93,246,0.5)]"
+              src={callImg}
+              alt="call"
+              className="left-image w-80 h-80 md:w-[420px] md:h-[420px] rounded-full shadow-2xl object-cover"
             />
           </div>
 
-          {/* RIGHT CONTENT */}
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-secondary text-center md:text-left">
-              Get In <span className="text-primary">Touch</span>
-            </h2>
-            
+          {/* RIGHT: Contact Details + Form */}
+          <div className="p-8">
+            <div className="contact-card p-8 rounded-3xl bg-white/5 backdrop-blur-md">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Get In <span className="text-primary">Touch</span>
+              </h2>
 
-            <div className="space-y-6 mb-10">
-              <div className="flex items-start space-x-4">
-                <div className="p-3 rounded-full bg-primary/20">
-                  <Mail className="h-6 w-6 text-primary" />
+              <div className="space-y-5 mb-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-full bg-primary/20">
+                    <Mail className="h-5 w-5 text-primary" />
+                  </div>
+                  <a href="mailto:haniisenthil@gmail.com" className="text-white/90 hover:text-white">
+                    haniisenthil@gmail.com
+                  </a>
                 </div>
-                <a href="mailto:haniisenthil@gmail.com" className="hover:text-primary transition-colors">
-                  haniisenthil@gmail.com
-                </a>
-              </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="p-3 rounded-full bg-primary/20">
-                  <PhoneCall className="h-6 w-6 text-primary" />
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-full bg-primary/20">
+                    <PhoneCall className="h-5 w-5 text-primary" />
+                  </div>
+                  <a href="tel:+9345611323" className="text-white/90 hover:text-white">
+                    +91 9345611323
+                  </a>
                 </div>
-                <a href="tel:+9345611323" className="hover:text-primary transition-colors">
-                  +91  9345611323
-                </a>
+
+                <div>
+                  <a
+                    href="https://www.linkedin.com/in/hanisha-senthilkumar"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-white/90 hover:text-white"
+                  >
+                    <Linkedin size={22} /> Connect on LinkedIn
+                  </a>
+                </div>
               </div>
 
-              <div className="pt-4">
-                <a
-                  href="https://www.linkedin.com/in/hanisha-senthilkumar"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center space-x-2 hover:text-primary transition"
-                >
-                  <Linkedin size={30} />
-                </a>
-              </div>
+              {/* FORM — Web3Forms */}
+              <form onSubmit={onSubmit} className="space-y-4">
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="Your name"
+                  className="form-control"
+                />
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="Your email"
+                  className="form-control"
+                />
+                <textarea
+                  name="message"
+                  required
+                  rows={5}
+                  placeholder="Your message"
+                  className="form-control resize-none"
+                ></textarea>
+
+                <button type="submit" className="submit-btn flex items-center gap-2">
+                  Send Message <Send size={14} />
+                </button>
+
+                <p className="text-white/70 text-sm h-4 mt-1">{result}</p>
+              </form>
             </div>
-
-            {/* Contact Form */}
-            <form className="space-y-6">
-              <input
-                type="text"
-                placeholder="Your Name"
-                required
-                className="w-full px-4 py-3 rounded-md border border-primary/40 bg-black/40 focus:ring-2 focus:ring-primary outline-none"
-              />
-              <input
-                type="email"
-                placeholder="Your Email"
-                required
-                className="w-full px-4 py-3 rounded-md border border-primary/40 bg-black/40 focus:ring-2 focus:ring-primary outline-none"
-              />
-              <textarea
-                placeholder="Your Message"
-                required
-                className="w-full px-4 py-3 rounded-md border border-primary/40 bg-black/40 focus:ring-2 focus:ring-primary resize-none outline-none"
-              />
-
-              <button
-                type="submit"
-                className="flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-primary-foreground font-medium transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,93,246,0.6)] hover:scale-105 active:scale-95 mx-auto md:mx-0"
-              >
-                Send <Send size={16}/>
-              </button>
-            </form>
           </div>
+
         </div>
       </div>
     </section>

@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { cn } from "../lib/utils";
 import { Menu, X } from "lucide-react";
 
  const Navbar = () => {
-    const [scrolling, setScrolling] = useState(false);
-    const [isOpenMenu, setIsOpenMenu] = useState(false);
+     const [scrolling, setScrolling] = useState(false);
+     const [isOpenMenu, setIsOpenMenu] = useState(false);
+    const [activeId, setActiveId] = useState(null);
+    const navRef = useRef(null);
+    const [indicator, setIndicator] = useState({ left: 0, width: 0, visible: false });
 
     const navItem = [
-        { name: "Home", href: "#home" },
+        { name: "Hero", href: "#hero" },
         { name: "About", href: "#about" },
-        { name: "Projects", href: "#projects" },
+        
         { name: "Skills", href: "#skills" },
+         { name: "Projects", href: "#projects" },
         { name: "Contact", href: "#contact" },
     ];
 
@@ -19,6 +23,52 @@ import { Menu, X } from "lucide-react";
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    // Observe sections to set active nav item
+    useEffect(() => {
+        const ids = navItem.map(i => i.href.replace('#',''));
+        const elements = ids.map(id => document.getElementById(id)).filter(Boolean);
+        if (!elements.length) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setActiveId(entry.target.id);
+                    }
+                });
+            },
+            { root: null, rootMargin: '-20% 0px -60% 0px', threshold: 0.15 }
+        );
+
+        elements.forEach(el => observer.observe(el));
+        return () => observer.disconnect();
+    }, []);
+
+    // Move indicator when activeId changes or on resize
+    useEffect(() => {
+        const updateIndicator = () => {
+            if (!navRef.current) return;
+            if (!activeId) {
+                setIndicator({ left: 0, width: 0, visible: false });
+                return;
+            }
+            const selector = `a[href="#${activeId}"]`;
+            const el = navRef.current.querySelector(selector);
+            if (!el) {
+                setIndicator({ left: 0, width: 0, visible: false });
+                return;
+            }
+            // use offsetLeft/offsetWidth which is more robust for inline-flex children
+            const left = el.offsetLeft;
+            const width = el.offsetWidth;
+            setIndicator({ left, width, visible: true });
+        };
+
+        updateIndicator();
+        window.addEventListener('resize', updateIndicator);
+        return () => window.removeEventListener('resize', updateIndicator);
+    }, [activeId]);
 
     return (
         <nav
@@ -30,33 +80,71 @@ import { Menu, X } from "lucide-react";
             <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
                 
                 {/* Logo */}
-                <a className="text-xl font-bold flex items-center" href="#home">
+                <a className="text-xl font-bold flex items-center" href="#hero">
                     <span className="text-primary">Personal</span>{" "}
                     <span className="text-secondary ml-1">Portfolio</span>
                 </a>
 
                 {/* Large screen menu */}
-                <div className="hidden md:flex space-x-6">
-                    {navItem.map((item, key) => (
+                <div ref={navRef} className="hidden md:flex space-x-6 relative">
+                    {navItem.map((item, key) => {
+                        const id = item.href.replace('#','');
+                        const isActive = activeId === id;
+                        return (
                         <a
                             key={key}
                             href={item.href}
-                            className="
-                                text-secondary relative group 
-                                transition-all duration-300
-                            "
+                            onClick={(e)=>{
+                                e.preventDefault();
+                                const target = document.getElementById(id);
+                                if (target) {
+                                    const navHeight = document.querySelector('nav')?.offsetHeight || 0;
+                                    const rect = target.getBoundingClientRect();
+                                    const top = window.scrollY + rect.top - navHeight - 12; // small offset
+                                    window.scrollTo({ top, behavior: 'smooth' });
+                                }
+                                setIsOpenMenu(false);
+                                // mark as active immediately so underline shows on click
+                                setActiveId(id);
+                            }}
+                            onMouseEnter={(e)=>{
+                                // move indicator to hovered item
+                                const el = e.currentTarget;
+                                const left = el.offsetLeft;
+                                const width = el.offsetWidth;
+                                setIndicator({ left, width, visible: true });
+                            }}
+                            onMouseLeave={()=>{
+                                // revert to active
+                                if (!activeId) { setIndicator({ left: 0, width: 0, visible: false }); return; }
+                                const sel = `a[href="#${activeId}"]`;
+                                const elActive = navRef.current.querySelector(sel);
+                                if (!elActive) { setIndicator({ left: 0, width: 0, visible: false }); return; }
+                                const left = elActive.offsetLeft;
+                                const width = elActive.offsetWidth;
+                                setIndicator({ left, width, visible: true });
+                            }}
+                            className={cn(
+                                "text-white/90 relative group transition-all duration-300 hover:text-white",
+                                // keep text color consistent; underline handled by indicator
+                                isActive ? "" : ""
+                            )}
                         >
                             {item.name}
-
-                            {/* hover underline */}
-                            <span
-                                className="
-                                absolute left-0 -bottom-1 w-0 h-[2px] bg-primary 
-                                transition-all duration-300 group-hover:w-full
-                                "
-                            ></span>
+                            
                         </a>
-                    ))}
+                    )})}
+
+                    {/* Animated moving indicator */}
+                    <span
+                        aria-hidden
+                        style={{
+                            transform: `translateX(${indicator.left}px)`,
+                            width: indicator.width,
+                            opacity: indicator.visible ? 1 : 0,
+                        }}
+                        className="nav-indicator absolute -bottom-1 h-[2px] transition-all duration-300"
+                    />
                 </div>
 
                 {/* Mobile menu button */}
@@ -81,7 +169,19 @@ import { Menu, X } from "lucide-react";
                                 key={key}
                                 href={item.href}
                                 className="hover:text-primary transition-colors duration-300"
-                                onClick={() => setIsOpenMenu(false)}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    const id = item.href.replace('#','');
+                                    const target = document.getElementById(id);
+                                    if (target) {
+                                             const navHeight = document.querySelector('nav')?.offsetHeight || 0;
+                                              const rect = target.getBoundingClientRect();
+                                              const top = window.scrollY + rect.top - navHeight - 12;
+                                                     window.scrollTo({ top, behavior: 'smooth' });
+                                   }
+                                    setIsOpenMenu(false);
+                                  setActiveId(item.href.replace('#',''));
+                                }}
                             >
                                 {item.name}
                             </a>
