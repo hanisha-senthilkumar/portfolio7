@@ -24,6 +24,28 @@ import { Menu, X } from "lucide-react";
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const [isTransitioning, setIsTransitioning] = useState(false);
+
+    const performTransitionScroll = (id) => {
+        const target = document.getElementById(id);
+        const navHeight = document.querySelector('nav')?.offsetHeight || 0;
+
+        // show overlay
+        setIsTransitioning(true);
+
+        // wait for overlay to appear, then scroll
+        setTimeout(() => {
+            if (target) {
+                const rect = target.getBoundingClientRect();
+                const top = window.scrollY + rect.top - navHeight - 12;
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
+
+            // hide overlay after scroll settles
+            setTimeout(() => setIsTransitioning(false), 520);
+        }, 160);
+    };
+
     // Observe sections to set active nav item
     useEffect(() => {
         const ids = navItem.map(i => i.href.replace('#',''));
@@ -96,16 +118,10 @@ import { Menu, X } from "lucide-react";
                             href={item.href}
                             onClick={(e)=>{
                                 e.preventDefault();
-                                const target = document.getElementById(id);
-                                if (target) {
-                                    const navHeight = document.querySelector('nav')?.offsetHeight || 0;
-                                    const rect = target.getBoundingClientRect();
-                                    const top = window.scrollY + rect.top - navHeight - 12; // small offset
-                                    window.scrollTo({ top, behavior: 'smooth' });
-                                }
                                 setIsOpenMenu(false);
                                 // mark as active immediately so underline shows on click
                                 setActiveId(id);
+                                performTransitionScroll(id);
                             }}
                             onMouseEnter={(e)=>{
                                 // move indicator to hovered item
@@ -172,15 +188,9 @@ import { Menu, X } from "lucide-react";
                                 onClick={(e) => {
                                     e.preventDefault();
                                     const id = item.href.replace('#','');
-                                    const target = document.getElementById(id);
-                                    if (target) {
-                                             const navHeight = document.querySelector('nav')?.offsetHeight || 0;
-                                              const rect = target.getBoundingClientRect();
-                                              const top = window.scrollY + rect.top - navHeight - 12;
-                                                     window.scrollTo({ top, behavior: 'smooth' });
-                                   }
-                                    setIsOpenMenu(false);
-                                  setActiveId(item.href.replace('#',''));
+                                                                        setIsOpenMenu(false);
+                                                                        setActiveId(item.href.replace('#',''));
+                                                                        performTransitionScroll(id);
                                 }}
                             >
                                 {item.name}
@@ -189,6 +199,8 @@ import { Menu, X } from "lucide-react";
                     </div>
                 </div>
             </div>
+            {/* full-screen overlay used during anchor transition */}
+            <div className={"nav-overlay " + (isTransitioning ? 'show' : '')} aria-hidden />
         </nav>
     );
 };

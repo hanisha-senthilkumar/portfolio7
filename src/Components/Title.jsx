@@ -96,7 +96,7 @@ export default function Title() {
         {/* Buttons */}
         <div className="mt-6 flex gap-4 justify-center lg:justify-start">
           <a href="#projects" className="btn1 btn-hover">View Projects</a>
-          <a href="#contact" className="btn2 btn-hover">Contact Me</a>
+          <a href="#Contact" className="btn2 btn-hover">Contact Me</a>
         </div>
 
         {/* Social Icons */}
