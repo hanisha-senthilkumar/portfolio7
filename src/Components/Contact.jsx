@@ -120,7 +120,7 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  className={`submit-btn flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 border-blue-500/40`}
+                  className={`submit-btn flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 border-blue-500/40 text-white`}
                 >
                   {success ? (
                     <>
@@ -128,7 +128,7 @@ const Contact = () => {
                     </>
                   ) : (
                     <>
-                      Send Message <Send size={14} />
+                      <span className="text-white">Send Message</span> <Send size={14} />
                     </>
                   )}
                 </button>

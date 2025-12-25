@@ -3,47 +3,29 @@ import { AnimatePresence } from "framer-motion";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Background from "./Components/Background";
-import PageTransition from "./Components/PageTransition";
+// PageTransition removed — render pages directly
 import ErrorBoundary from "./Components/ErrorBoundary";
 
-function AppRouter() {
+function AppRoutes() {
   const location = useLocation();
 
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route
-          index
-          element={
-            <PageTransition>
-              <Home />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            <PageTransition>
-              <NotFound />
-            </PageTransition>
-          }
-        />
+        <Route index element={<Background><Home /></Background>} />
+        <Route path="*" element={<Background><NotFound /></Background>} />
       </Routes>
     </AnimatePresence>
   );
 }
 
-function App() {
+export default function App() {
   return (
-    <Background>
-      <ErrorBoundary>
-        {/* ✅ GitHub Pages SAFE router */}
-        <HashRouter>
-          <AppRouter />
-        </HashRouter>
-      </ErrorBoundary>
-    </Background>
+    <ErrorBoundary>
+      {/* ✅ Router must be TOP LEVEL */}
+      <HashRouter>
+        <AppRoutes />
+      </HashRouter>
+    </ErrorBoundary>
   );
 }
-
-export default App;

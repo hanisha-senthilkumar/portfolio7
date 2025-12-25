@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { cn } from "../lib/utils";
+import { cn, smoothScrollToId } from "../lib/utils";
 import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
@@ -15,7 +15,7 @@ const Navbar = () => {
     { name: "Contact", href: "#contact" },
   ];
 
-  /* Scroll bg */
+  /* Scroll background */
   useEffect(() => {
     const onScroll = () => setScrolling(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
@@ -24,14 +24,7 @@ const Navbar = () => {
 
   /* Scroll to section */
   const goTo = (id) => {
-    const navH = 70;
-    const el = document.getElementById(id);
-    if (!el) return;
-
-    const y =
-      window.scrollY + el.getBoundingClientRect().top - navH;
-    window.scrollTo({ top: y, behavior: "smooth" });
-
+    smoothScrollToId(id, 70);
     setActiveId(id);
     setOpen(false);
   };
@@ -41,45 +34,52 @@ const Navbar = () => {
       {/* ───────── TOP NAVBAR ───────── */}
       <nav
         className={cn(
-          "fixed top-0 w-full z-40 transition-all duration-300",
+          "fixed top-0 w-full z-50 transition-all duration-300",
           scrolling
             ? "bg-black/70 backdrop-blur-md py-3 shadow-lg"
             : "py-5"
         )}
       >
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <span className="text-xl font-extrabold gradient-text">
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+          {/* Logo */}
+          <button onClick={() => goTo('hero')} className="text-xl font-extrabold gradient-text focus:outline-none">
             Personal Portfolio
-          </span>
+          </button>
 
-          {/* Desktop */}
+          {/* Desktop Menu */}
           <div className="hidden md:flex gap-8 text-white/80">
             {navItem.map((n) => (
-              <a
+              <button
                 key={n.name}
-                href={n.href}
-                className="hover:text-white transition"
+                type="button"
+                onClick={() => goTo(n.href.replace('#',''))}
+                className={cn(
+                  "group hover:text-white transition bg-transparent border-0 p-0",
+                  activeId === n.href.replace('#','') ? 'text-white scale-105' : 'text-white/80'
+                )}
               >
-                {n.name}
-              </a>
+                <span className="relative inline-block">
+                  {n.name}
+                  <span className={cn(
+                    "absolute left-0 -bottom-1 h-[2px] nav-underline transition-all duration-200",
+                    activeId === n.href.replace('#','') ? 'w-full' : 'w-0 group-hover:w-full'
+                  )} />
+                </span>
+              </button>
             ))}
           </div>
+
+          {/* Hamburger (TOP RIGHT) */}
+          <button
+            onClick={() => setOpen(!open)}
+            className="md:hidden text-white z-50"
+          >
+            {open ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
       </nav>
 
-      {/* ───────── FLOATING HAMBURGER (MOBILE) ───────── */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="md:hidden fixed bottom-6 right-6 z-50
-        w-14 h-14 rounded-full
-        bg-primary text-white
-        shadow-[0_0_25px_rgba(99,102,241,0.8)]
-        flex items-center justify-center"
-      >
-        {open ? <X size={28} /> : <Menu size={28} />}
-      </button>
-
-      {/* ───────── SLIDE MENU ───────── */}
+      {/* ───────── MOBILE SLIDE MENU ───────── */}
       <div
         className={cn(
           "fixed inset-0 z-40 md:hidden",
