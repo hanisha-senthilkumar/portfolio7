@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
@@ -12,8 +12,22 @@ function AppRouter() {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route index element={<PageTransition><Home /></PageTransition>} />
-        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+        <Route
+          index
+          element={
+            <PageTransition>
+              <Home />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <PageTransition>
+              <NotFound />
+            </PageTransition>
+          }
+        />
       </Routes>
     </AnimatePresence>
   );
@@ -23,10 +37,10 @@ function App() {
   return (
     <Background>
       <ErrorBoundary>
-        {/* 👇 FIX: Required for GitHub Pages */}
-        <BrowserRouter basename="/portfolio7">
+        {/* ✅ GitHub Pages SAFE router */}
+        <HashRouter>
           <AppRouter />
-        </BrowserRouter>
+        </HashRouter>
       </ErrorBoundary>
     </Background>
   );
