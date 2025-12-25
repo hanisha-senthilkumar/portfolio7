@@ -103,12 +103,28 @@ body {
 
 /* 🎨 Skill Card Styling */
 .skill-card {
-  @apply p-7 rounded-2xl text-white shadow-xl backdrop-blur-md transition-all duration-300;
+  @apply p-7 rounded-2xl text-white transition-all duration-300;
 }
 
 .skill-card:hover {
-  transform: translateY(-10px) scale(1.03);
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(59,130,246,0.12);
+}
+
+/* Gradient text utility used for logo and headings */
+.gradient-text {
+  background: linear-gradient(90deg, #60a5fa 0%, #7c3aed 50%, #f472b6 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 6s linear infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* 🎨 Gradient Button */
@@ -243,14 +259,14 @@ body {
   animation: bounceAlone 3s ease-in-out infinite;
 }
 
-/* CONTACT BOX BORDER GLOW */
+/* CONTACT BOX BORDER GLOW (now blue subtle) */
 .contact-box {
-  border: 1px solid rgba(139, 93, 246, 0.35);
-  box-shadow: 0 0 20px rgba(139, 93, 246, 0.25);
+  border: 1px solid rgba(59, 130, 246, 0.18);
+  box-shadow: 0 0 12px rgba(59,130,246,0.12);
   transition: 0.4s;
 }
 .contact-box:hover {
-  box-shadow: 0 0 35px rgba(139, 93, 246, 0.6);
+  box-shadow: 0 0 22px rgba(59,130,246,0.22);
   transform: translateY(-3px);
 }
 
@@ -265,8 +281,8 @@ body {
   transition: 0.3s;
 }
 .form-control:focus {
-  border-color: rgba(139, 93, 246, 0.8);
-  box-shadow: 0 0 10px rgba(139, 93, 246, 0.6);
+  border-color: rgba(59,130,246,0.9);
+  box-shadow: 0 0 10px rgba(59,130,246,0.22);
 }
 
 /* SUBMIT BUTTON */
@@ -285,7 +301,7 @@ body {
 }
 .submit-btn:hover {
   transform: scale(1.06);
-  box-shadow: 0 0 12px rgba(139, 93, 246, 0.7);
+  box-shadow: 0 0 12px rgba(59,130,246,0.35);
 }
 .submit-btn:active {
   transform: scale(0.93);
@@ -326,8 +342,38 @@ html {
   /* slow, subtle zoom for life */
   animation: slow-zoom 30s linear infinite;
   /* make the animated background slightly transparent for better contrast */
-  opacity: 0.88;
+  opacity: 1;
 }
+
+/* Decorative overlay above the video to make background more attractive */
+.bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  /* stronger, pleasant bluish cinematic tint + subtle vignette */
+  background: linear-gradient(180deg, rgba(3,37,65,0.28), rgba(2,8,19,0.78));
+  pointer-events: none;
+}
+.bg-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, rgba(255,255,255,0.02), rgba(0,0,0,0.36));
+  mix-blend-mode: multiply;
+}
+.bg-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(24,58,122,0.03), rgba(120,46,204,0.02));
+  opacity: 0.9;
+}
+@keyframes overlayPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.005); }
+  100% { transform: scale(1); }
+}
+.bg-overlay { animation: overlayPulse 40s ease-in-out infinite; }
 
 /* ======= HERO: gradient text, astronaut float, stars, buttons, social, arrow ======= */
 
@@ -805,4 +851,19 @@ html {
 /* Perspective container for tilt */
 .perspective {
   perspective: 1000px;
+}
+.perspective {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
 }

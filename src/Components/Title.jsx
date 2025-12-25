@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
-import Astronaut from "../assets/cute.png";
-import bgVideo from "../assets/bg1.mp4";
+import Astronaut from "@/assets/cute.png";
 
 const words = [
   "Frontend Developer",
@@ -33,29 +32,8 @@ export default function Title() {
   return (
     <section
       id="hero"
-      className="w-full min-h-screen flex flex-col lg:flex-row justify-center items-center bg-black text-white px-6 pt-24 lg:pt-0 relative overflow-hidden"
+      className="w-full min-h-screen flex flex-col lg:flex-row justify-center items-center bg-transparent text-white px-6 pt-24 lg:pt-0 relative overflow-hidden"
     >
-      {/* Background Video */}
-      <div className="absolute inset-0 pointer-events-none z-0" aria-hidden="true">
-        <video className="video-bg" autoPlay loop muted playsInline>
-          <source src={bgVideo} type="video/mp4" />
-        </video>
-      </div>
-
-      {/* Stars Background */}
-      <div className="absolute inset-0 pointer-events-none z-10">
-        {Array.from({ length: 35 }).map((_, i) => {
-          const style = {
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            width: `${Math.random() * 3 + 1}px`,
-            height: `${Math.random() * 3 + 1}px`,
-            animationDelay: `${Math.random() * 4}s`,
-            opacity: Math.random() * 0.9,
-          };
-          return <span key={i} className="star" style={style} />;
-        })}
-      </div>
 
       {/* LEFT HERO CONTENT */}
       <motion.div
@@ -96,7 +74,7 @@ export default function Title() {
         {/* Buttons */}
         <div className="mt-6 flex gap-4 justify-center lg:justify-start">
           <a href="#projects" className="btn1 btn-hover">View Projects</a>
-          <a href="#Contact" className="btn2 btn-hover">Contact Me</a>
+          <a href="#contact" className="btn2 btn-hover">Contact Me</a>
         </div>
 
         {/* Social Icons */}

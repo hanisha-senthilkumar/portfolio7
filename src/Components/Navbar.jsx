@@ -12,8 +12,7 @@ import { Menu, X } from "lucide-react";
     const navItem = [
         { name: "Hero", href: "#hero" },
         { name: "About", href: "#about" },
-        
-        { name: "Skills", href: "#skills" },
+         { name: "Skills", href: "#skills" },
          { name: "Projects", href: "#projects" },
         { name: "Contact", href: "#contact" },
     ];
@@ -27,23 +26,40 @@ import { Menu, X } from "lucide-react";
     const [isTransitioning, setIsTransitioning] = useState(false);
 
     const performTransitionScroll = (id) => {
-        const target = document.getElementById(id);
-        const navHeight = document.querySelector('nav')?.offsetHeight || 0;
+        const navHeight = document.querySelector("nav")?.offsetHeight || 0;
 
         // show overlay
         setIsTransitioning(true);
+        console.debug("Navbar: performTransitionScroll start ->", true, "id=", id);
 
-        // wait for overlay to appear, then scroll
+        // wait briefly for overlay to appear, then try a robust lookup and scroll
         setTimeout(() => {
+            // try several ways to find the target element
+            let target = document.getElementById(id) || document.querySelector(`#${id}`) || document.querySelector(`[name='${id}']`) || document.querySelector(id);
+
             if (target) {
+                // compute offset top and scroll
                 const rect = target.getBoundingClientRect();
-                const top = window.scrollY + rect.top - navHeight - 12;
-                window.scrollTo({ top, behavior: 'smooth' });
+                const top = Math.max(0, window.scrollY + rect.top - navHeight - 12);
+                window.scrollTo({ top, behavior: "smooth" });
+                try { history.replaceState(null, "", `#${id}`); } catch(e){}
+            } else {
+                // fallback: if no target found, scroll to top or to hero
+                const hero = document.getElementById("hero");
+                if (hero) {
+                    const rect = hero.getBoundingClientRect();
+                    const top = Math.max(0, window.scrollY + rect.top - navHeight - 12);
+                    window.scrollTo({ top, behavior: "smooth" });
+                    try { history.replaceState(null, "", `#hero`); } catch(e){}
+                }
             }
 
             // hide overlay after scroll settles
-            setTimeout(() => setIsTransitioning(false), 520);
-        }, 160);
+            setTimeout(() => {
+                setIsTransitioning(false);
+                console.debug("Navbar: performTransitionScroll end ->", false, "id=", id);
+            }, 520);
+        }, 120);
     };
 
     // Observe sections to set active nav item
@@ -103,8 +119,7 @@ import { Menu, X } from "lucide-react";
                 
                 {/* Logo */}
                 <a className="text-xl font-bold flex items-center" href="#hero">
-                    <span className="text-primary">Personal</span>{" "}
-                    <span className="text-secondary ml-1">Portfolio</span>
+                    <span className="gradient-text text-xl font-extrabold">Personal Portfolio</span>
                 </a>
 
                 {/* Large screen menu */}

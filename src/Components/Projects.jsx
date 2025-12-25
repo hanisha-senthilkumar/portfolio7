@@ -51,9 +51,9 @@ const Projects = () => {
     <section id="projects" className="py-24 px-4 relative">
       <div className="container mx-auto max-w-6xl text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-3">
-          🔥 <span className="text-primary">Projects</span>
+           <span className="gradient-text"> My Projects</span>
         </h2>
-        <p className="text-secondary mb-12 max-w-2xl mx-auto">
+        <p className="text-secondary mb-12 max-w-2xl mx-auto text-white">
           Showcasing creativity, animations & passion for development
         </p>
 

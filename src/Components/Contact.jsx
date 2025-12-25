@@ -1,6 +1,6 @@
 import { Linkedin, Mail, PhoneCall, Send, CheckCircle } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import dail from "../assets/call.png";
+import dail from "@/assets/call.png";
 
 const Contact = () => {
   const [result, setResult] = useState("");
@@ -53,7 +53,7 @@ const Contact = () => {
   }, []);
 
   return (
-    <section className="py-24 px-4 relative overflow-hidden">
+    <section id="contact" className="py-24 px-4 relative overflow-hidden">
       {/* Particle Sparks */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="particle" style={{top:'10%', left:'20%'}}></div>
@@ -67,29 +67,26 @@ const Contact = () => {
 
           {/* LEFT IMAGE */}
           <div className="flex items-center justify-center">
-            <img
-              src={dail}
-              alt="Business Woman Laptop"
-              className="w-72 h-72 md:w-[420px] md:h-[420px] rounded-full object-cover shadow-[0_0_30px_rgba(139,92,246,0.5)] floating"
-            />
+              <img
+                src={dail}
+                alt="Call" 
+                className="w-72 h-72 md:w-[420px] md:h-[420px] rounded-full object-cover shadow-sm hover:scale-105 transition"
+              />
           </div>
 
           {/* RIGHT FORM */}
-          <div
-            ref={cardRef}
-            className="p-[2px] rounded-3xl bg-gradient-to-r from-primary/70 via-pink-600/60 to-blue-500/60 animated-border perspective"
-          >
-            <div className="contact-card p-8 rounded-3xl bg-black/60 backdrop-blur-xl shadow-xl">
+          <div ref={cardRef} className="rounded-3xl">
+            <div className="contact-card p-8 rounded-3xl bg-transparent shadow-none border border-transparent transition hover:border-blue-400/50">
               {/* Gradient Animated Heading */}
-              <h2 className="text-4xl font-bold mb-6 text-gradient">
-                Get In <span className="text-primary">Touch</span>
+              <h2 className="text-4xl font-bold mb-6 text-white">
+                Get In <span className="text-blue-400">Touch</span>
               </h2>
 
               {/* Contact Details */}
               <div className="space-y-5 mb-8">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-full bg-primary/20">
-                    <Mail className="h-5 w-5 text-primary" />
+                  <div className="p-3 rounded-full bg-blue-500/10">
+                    <Mail className="h-5 w-5 text-blue-400" />
                   </div>
                   <a href="mailto:haniisenthil@gmail.com" className="text-white/90 hover:text-white">
                     haniisenthil@gmail.com
@@ -97,8 +94,8 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-full bg-primary/20">
-                    <PhoneCall className="h-5 w-5 text-primary" />
+                  <div className="p-3 rounded-full bg-blue-500/10">
+                    <PhoneCall className="h-5 w-5 text-blue-400" />
                   </div>
                   <a href="tel:+9345611323" className="text-white/90 hover:text-white">
                     +91 9345611323
@@ -123,7 +120,7 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  className={`submit-btn flex items-center justify-center gap-2 ${success ? "bg-green-600 animate-bounce" : ""}`}
+                  className={`submit-btn flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 border-blue-500/40`}
                 >
                   {success ? (
                     <>

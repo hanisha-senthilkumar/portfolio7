@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Background from "./Components/Background";
 import PageTransition from "./Components/PageTransition";
+import ErrorBoundary from "./Components/ErrorBoundary";
 
 function AppRouter() {
   const location = useLocation();
@@ -19,15 +20,16 @@ function AppRouter() {
 }
 
 function App() {
-  
-
   return (
     <Background>
-      <BrowserRouter>
-        <AppRouter />
-      </BrowserRouter>
+      <ErrorBoundary>
+        {/* 👇 FIX: Required for GitHub Pages */}
+        <BrowserRouter basename="/portfolio7">
+          <AppRouter />
+        </BrowserRouter>
+      </ErrorBoundary>
     </Background>
   );
 }
 
-export default App
+export default App;

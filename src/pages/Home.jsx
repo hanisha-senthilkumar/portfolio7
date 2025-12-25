@@ -1,6 +1,5 @@
 
-import ThemeToggle from "../Components/ThemeToggle";
-import Background from "../Components/Background";
+// Background is provided at the app root (do not re-import here)
 import Navbar from "../Components/Navbar";
 import Title from "../Components/Title";
 import About from "../Components/About";
@@ -12,11 +11,9 @@ const Home=()=>{
     return(
         <div className="min-h-screen bg-transparent text-foreground ">
 
-            {/* Theme Toggle */}
-            <ThemeToggle/>
+            {/* Theme Toggle removed - using app-level background and default theme */}
 
-             {/* Background Effect */}
-             <Background/>
+             {/* Background is mounted at the app root; do not duplicate here */}
 
               {/* Navbar*/}
               <Navbar/>
